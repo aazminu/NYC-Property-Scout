@@ -1,11 +1,31 @@
-"""
-Utilities package for NYC Rent Web Scraper.
+"""NYC Property Scout Utilities Package."""
 
-This package contains utility modules for various operations
-such as uploading data to IBM Cloudant database.
-"""
-
-from .cloudant_uploader import CloudantUploader
 from .bbl_matcher import BBLMatcher
+from .property_analytics import (
+    audit_property_records,
+    coerce_numeric,
+    compute_investment_metrics,
+    decompose_bbl,
+    filter_property_records,
+    find_spatial_comps,
+    haversine_km,
+    normalize_bbl,
+)
 
-__all__ = ["CloudantUploader", "BBLMatcher"]
+try:
+    from .cloudant_uploader import CloudantUploader
+except ImportError:
+    CloudantUploader = None  # type: ignore[assignment]
+
+__all__ = [
+    "BBLMatcher",
+    "CloudantUploader",
+    "audit_property_records",
+    "coerce_numeric",
+    "compute_investment_metrics",
+    "decompose_bbl",
+    "filter_property_records",
+    "find_spatial_comps",
+    "haversine_km",
+    "normalize_bbl",
+]

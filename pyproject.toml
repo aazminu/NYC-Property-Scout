@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nyc-property-scout"
+version = "0.2.0"
+description = "NYC real-estate geospatial BBL enrichment, PLUTO/311/tax data-quality auditing, and hedonic cap-rate valuation pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Abdullah Azmi", email = "greatnessings@gmail.com" }
+]
+dependencies = [
+  "fastapi>=0.109.0",
+  "pydantic>=2.0.0",
+  "requests>=2.31.0",
+  "python-dotenv>=1.0.0"
+]
+
+[project.scripts]
+nyc-property-scout = "utilities.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
