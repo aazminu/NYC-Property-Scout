@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Scraped data (optional - uncomment to track)
+# data/*.csv
+# data/*.json
+
+# Sensitive files
+.env
+*.secret
+.env
+
+
+# Large files
+pluto_*.csv
+
+
+# Node modules
+frontend/node_modules/

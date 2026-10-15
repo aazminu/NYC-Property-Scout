@@ -1,0 +1,74 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NYC Property Quality Tools",
+    "description": "Skills to retrieve real-time housing quality data from NYC Open Data APIs, including 311 complaints and HPD violations.",
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://data.cityofnewyork.us/resource"
+    }
+  ],
+  "paths": {
+    "/erm2-nwe9.json": {
+      "get": {
+        "summary": "Get 311 Service Requests",
+        "description": "Retrieves non-emergency 311 complaints for a specific property using its BBL identifier with a mandatory date filter.",
+        "operationId": "get311Complaints",
+        "parameters": [
+          {
+            "name": "bbl",
+            "in": "query",
+            "description": "The 10-digit Borough-Block-Lot identifier for the property.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$where",
+            "in": "query",
+            "description": "Date filter for the last 90 days. Format: created_date > 'YYYY-MM-DD'T00:00:00",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$limit",
+            "in": "query",
+            "description": "Maximum number of records to return (set to 50 to save context).",
+            "schema": {
+              "type": "integer",
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "problem": { "type": "string" },
+                      "problem_detail": { "type": "string" },
+                      "descriptor": { "type": "string" },
+                      "status": { "type": "string" },
+                      "created_date": { "type": "string" },
+                      "resolution_description": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

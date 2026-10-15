@@ -1,0 +1,62 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NYC Property Tax Audit Tool",
+    "description": "Anonymous access to the consolidated 8y4t-faws dataset for NYC property valuation data.",
+    "version": "1.0.3"
+  },
+  "servers": [
+    {
+      "url": "https://data.cityofnewyork.us/resource"
+    }
+  ],
+  "paths": {
+    "/8y4t-faws.json": {
+      "get": {
+        "summary": "Get Property Tax Assessment",
+        "operationId": "getPropertyTaxData",
+        "parameters": [
+          {
+            "name": "bbl",
+            "in": "query",
+            "description": "The 10-digit BBL identifier.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Required fields: fullval, avtot, taxclass, staddr.",
+            "schema": {
+              "type": "string",
+              "default": "fullval,avtot,taxclass,staddr"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "fullval": { "type": "string" },
+                      "avtot": { "type": "string" },
+                      "taxclass": { "type": "string" },
+                      "staddr": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
