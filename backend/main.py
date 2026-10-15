@@ -113,7 +113,7 @@ async def get_property(property_id: str):
             continue
 
         # Match by zpid or bbl
-        if prop.get("zpid") == property_id or prop.get("bbl") == property_id:
+        if str(prop.get("zpid")) == str(property_id) or str(prop.get("bbl")) == str(property_id):
             return prop
 
     raise HTTPException(status_code=404, detail="Property not found")
