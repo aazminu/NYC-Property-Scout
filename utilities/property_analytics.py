@@ -419,3 +419,31 @@ def compute_investment_metrics(
         "cash_on_cash_pct": round(cash_on_cash_pct, 2),
         "price_to_rent_ratio": round(price_to_rent_ratio, 2),
     }
+
+def compute_dscr_stress_matrix(
+    annual_noi: float,
+    loan_amount: float,
+    interest_rates: List[float],
+    amort_years: int = 30,
+) -> List[Dict[str, Any]]:
+    """Compute Debt Service Coverage Ratio (DSCR) across interest-rate stress scenarios."""
+    if loan_amount <= 0 or amort_years <= 0:
+        raise ValueError("loan_amount and amort_years must be positive")
+    n_months = amort_years * 12
+    results: List[Dict[str, Any]] = []
+    for rate in interest_rates:
+        r_month = rate / 12.0
+        if r_month <= 0:
+            monthly_payment = loan_amount / n_months
+        else:
+            factor = (1.0 + r_month) ** n_months
+            monthly_payment = loan_amount * (r_month * factor) / (factor - 1.0)
+        annual_debt_service = monthly_payment * 12.0
+        dscr = annual_noi / annual_debt_service if annual_debt_service > 0 else 0.0
+        results.append({
+            "interest_rate": round(rate, 6),
+            "annual_debt_service": round(annual_debt_service, 2),
+            "dscr": round(dscr, 4),
+            "covenant_pass": dscr >= 1.25,
+        })
+    return results
