@@ -129,3 +129,17 @@ def test_compute_investment_metrics_and_cli():
     data_file = Path(__file__).resolve().parent.parent / "data" / "nyc_both_20260131_161453_bbl.json"
     if data_file.exists():
         assert cli_main(["audit", "--file", str(data_file)]) == 0
+
+from utilities.property_analytics import compute_dscr_stress_matrix
+
+
+def test_compute_dscr_stress_matrix():
+    matrix = compute_dscr_stress_matrix(
+        annual_noi=180_000.0,
+        loan_amount=1_800_000.0,
+        interest_rates=[0.055, 0.065, 0.075],
+        amort_years=30,
+    )
+    assert len(matrix) == 3
+    assert matrix[0]["dscr"] > matrix[1]["dscr"] > matrix[2]["dscr"]
+    assert matrix[0]["covenant_pass"] is True
